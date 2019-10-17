@@ -5,7 +5,7 @@ backend:
 media_folder: static/images/uploads
 public_folder: /images/uploads
 
-publish_mode: editorial_workflow
+# publish_mode: editorial_workflow
 
 site_url: https://fullstackhq.io
 display_url: https://fullstackhq.io
@@ -21,5 +21,6 @@ collections:
       - { name: title, label: Title }
       - { name: image, label: Image, widget: image, allow_multiple: false }
       - { name: author, label: Author }
+      - { name: "tags", label: "Tags", widget: "list" }
       - { name: date, label: Date, widget: datetime }
       - { name: body, label: Body, widget: markdown }

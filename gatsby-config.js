@@ -2,9 +2,9 @@ const path = require('path');
 
 module.exports = {
   siteMetadata: {
-    title: 'Ghost',
-    description: 'The professional publishing platform',
-    siteUrl: 'https://gatsby-casper.netlify.com', // full path to blog - no ending slash
+    title: 'Full-Stack HQ',
+    description: 'A Blog dedicated to busting the Full-Stack myth.',
+    siteUrl: 'https://fullstackhq.io', // full path to blog - no ending slash
   },
   mapping: {
     'MarkdownRemark.frontmatter.author': 'AuthorsYaml',
