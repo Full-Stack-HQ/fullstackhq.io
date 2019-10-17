@@ -90,7 +90,7 @@ interface AuthorTemplateProps {
         node: PageContext;
       }>;
     };
-    authorYaml: {
+    authorsYaml: {
       id: string;
       website?: string;
       twitter?: string;
@@ -113,7 +113,7 @@ interface AuthorTemplateProps {
 }
 
 const Author: React.FC<AuthorTemplateProps> = props => {
-  const author = props.data.authorYaml;
+  const author = props.data.authorsYaml;
 
   const edges = props.data.allMarkdownRemark.edges.filter(
     edge => {
@@ -170,7 +170,7 @@ const Author: React.FC<AuthorTemplateProps> = props => {
             <SiteHeaderContent>
               <img
                 css={[AuthorProfileImage, AuthorProfileBioImage]}
-                src={props.data.authorYaml.avatar.childImageSharp.fluid.src}
+                src={props.data.authorsYaml.avatar.childImageSharp.fluid.src}
                 alt={author.id}
               />
               <SiteTitle>{author.id}</SiteTitle>
@@ -263,7 +263,7 @@ export default Author;
 
 export const pageQuery = graphql`
   query($author: String) {
-    authorYaml(id: { eq: $author }) {
+    authorsYaml(id: { eq: $author }) {
       id
       website
       twitter

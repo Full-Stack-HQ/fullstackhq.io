@@ -29,7 +29,7 @@ interface TagTemplateProps {
     tag: string;
   };
   data: {
-    allTagYaml: {
+    allTagsYaml: {
       edges: Array<{
         node: {
           id: string;
@@ -54,7 +54,7 @@ interface TagTemplateProps {
 const Tags: React.FC<TagTemplateProps> = props => {
   const tag = (props.pageContext.tag) ? props.pageContext.tag : '';
   const { edges, totalCount } = props.data.allMarkdownRemark;
-  const tagData = props.data.allTagYaml.edges.find(
+  const tagData = props.data.allTagsYaml.edges.find(
     n => n.node.id.toLowerCase() === tag.toLowerCase(),
   );
 
@@ -132,7 +132,7 @@ export default Tags;
 
 export const pageQuery = graphql`
   query($tag: String) {
-    allTagYaml {
+    allTagsYaml {
       edges {
         node {
           id

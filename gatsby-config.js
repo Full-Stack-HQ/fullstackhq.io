@@ -7,7 +7,7 @@ module.exports = {
     siteUrl: 'https://gatsby-casper.netlify.com', // full path to blog - no ending slash
   },
   mapping: {
-    'MarkdownRemark.frontmatter.author': 'AuthorYaml',
+    'MarkdownRemark.frontmatter.author': 'AuthorsYaml',
   },
   plugins: [
     'gatsby-plugin-sitemap',
@@ -56,6 +56,7 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-yaml',
     'gatsby-plugin-feed',
+    `gatsby-plugin-netlify-cms`,
     {
       resolve: 'gatsby-plugin-postcss',
       options: {

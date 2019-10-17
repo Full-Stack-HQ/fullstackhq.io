@@ -1,0 +1,22 @@
+backend:
+  name: test-repo
+
+media_folder: static/images/uploads
+public_folder: /images/uploads
+
+site_url: https://fullstackhq.io
+display_url: https://fullstackhq.io
+
+collections:
+  - name: posts
+    label: Posts
+    folder: posts
+    create: true
+    extension: md
+    fields:
+      - { name: layout, label: Layout, widget: hidden, default: "post" }
+      - { name: title, label: Title }
+      - { name: image, label: Image, widget: image, allow_multiple: false }
+      - { name: author, label: Author }
+      - { name: date, label: Date, widget: datetime }
+      - { name: body, label: Body, widget: markdown }

@@ -93,7 +93,7 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allAuthorYaml {
+      allAuthorsYaml {
         edges {
           node {
             id
@@ -176,7 +176,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create author pages
   const authorTemplate = path.resolve('./src/templates/author.tsx');
-  result.data.allAuthorYaml.edges.forEach(edge => {
+  result.data.allAuthorsYaml.edges.forEach(edge => {
     createPage({
       path: `/author/${_.kebabCase(edge.node.id)}/`,
       component: authorTemplate,
