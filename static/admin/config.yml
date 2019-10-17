@@ -13,7 +13,7 @@ display_url: https://fullstackhq.io
 collections:
   - name: posts
     label: Posts
-    folder: posts
+    folder: src/posts
     create: true
     extension: md
     fields:
