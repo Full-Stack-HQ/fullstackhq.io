@@ -29,7 +29,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        // name: 'images',
+        name: 'images',
         path: path.join(__dirname, 'static', 'images'),
       },
     },

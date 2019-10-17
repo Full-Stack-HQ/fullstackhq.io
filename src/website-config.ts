@@ -51,8 +51,8 @@ export interface WebsiteConfig {
 const config: WebsiteConfig = {
   title: 'Full-Stack HQ',
   description: 'A Blog dedicated to busting the Full-Stack myth.',
-  coverImage: 'img/blog-cover.jpg',
-  logo: 'img/ghost-logo.png',
+  coverImage: 'blog-cover.jpg',
+  logo: 'ghost-logo.png',
   lang: 'en',
   siteUrl: 'https://fullstackhq.io',
   facebook: '',

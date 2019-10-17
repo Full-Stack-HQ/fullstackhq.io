@@ -372,7 +372,7 @@ export default Post;
 
 export const query = graphql`
   query($slug: String, $primaryTag: String) {
-    logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
+    logo: file(relativePath: { eq: "ghost-logo.png" }) {
       childImageSharp {
         fixed {
           ...GatsbyImageSharpFixed
