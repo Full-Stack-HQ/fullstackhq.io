@@ -15,8 +15,22 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'content',
+        // name: 'content',
         path: path.join(__dirname, 'src', 'content'),
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        // name: 'posts',
+        path: path.join(__dirname, 'src', 'posts'),
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        // name: 'images',
+        path: path.join(__dirname, 'static', 'images'),
       },
     },
     {
@@ -47,7 +61,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://gatsby-casper.netlify.com',
+        siteUrl: 'https://fullstackhq.io',
       },
     },
     'gatsby-plugin-emotion',
@@ -56,7 +70,6 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-yaml',
     'gatsby-plugin-feed',
-    `gatsby-plugin-netlify-cms`,
     {
       resolve: 'gatsby-plugin-postcss',
       options: {
@@ -79,6 +92,23 @@ module.exports = {
         sampleRate: 100,
         // Determines how often site speed tracking beacons will be sent
         siteSpeedSampleRate: 10,
+      },
+    },
+
+    `gatsby-plugin-netlify-cms`,
+    {
+      resolve: `gatsby-plugin-netlify-cms-paths`,
+      options: {
+        // Path to your Netlify CMS config file
+        cmsConfig: `/static/admin/config.yml`
+      }
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          `gatsby-plugin-netlify-cms-paths`,
+        ],
       },
     },
   ],

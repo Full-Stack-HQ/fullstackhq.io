@@ -22,7 +22,7 @@ import { colors } from '../styles/colors';
 import { inner, outer, SiteHeader, SiteMain } from '../styles/shared';
 import config from '../website-config';
 
-const PostTemplate = css`
+const StyledPostTemplate = css`
   .site-main {
     background: #fff;
     padding-bottom: 4vw;
@@ -117,7 +117,7 @@ const ReadNextFeed = styled.div`
   padding: 40px 0 0 0;
 `;
 
-interface PageTemplateProps {
+interface PostProps {
   pathContext: {
     slug: string;
   };
@@ -206,7 +206,102 @@ export interface PageContext {
   };
 }
 
-const PageTemplate: React.FC<PageTemplateProps> = props => {
+interface PostTemplateProps {
+  image: any;
+  tags: Array<string>;
+  title: string;
+  date: string;
+  author: any;
+  userDate: string;
+  htmlAst: any;
+  relatedPosts: any;
+  pageContext: {
+    prev?: PageContext;
+    next?: PageContext;
+  };
+}
+
+export const PostTemplate: React.FC<PostTemplateProps> = ({
+  image,
+  tags,
+  title,
+  date,
+  author,
+  userDate,
+  htmlAst,
+  relatedPosts,
+  pageContext,
+}) => {
+
+  return (
+    <Wrapper css={StyledPostTemplate}>
+        <header css={[outer, SiteHeader]}>
+          <div css={inner}>
+            <SiteNav />
+          </div>
+        </header>
+        <main id="site-main" className="site-main" css={[SiteMain, outer]}>
+          <div css={inner}>
+            {/* TODO: no-image css tag? */}
+            <article css={[PostFull, !image && NoImage]}>
+              <PostFullHeader>
+                <PostFullMeta>
+                  <PostFullMetaDate dateTime={date}>
+                    {userDate}
+                  </PostFullMetaDate>
+                  {tags &&
+                    tags.length > 0 && (
+                      <>
+                        <DateDivider>/</DateDivider>
+                        <Link to={`/tags/${_.kebabCase(tags[0])}/`}>
+                          {tags[0]}
+                        </Link>
+                      </>
+                  )}
+                </PostFullMeta>
+                <PostFullTitle>{title}</PostFullTitle>
+              </PostFullHeader>
+
+              {(image && image.childImageSharp) && (
+                <PostFullImage>
+                  <Img
+                    style={{ height: '100%' }}
+                    fluid={image.childImageSharp.fluid}
+                  />
+                </PostFullImage>
+              )}
+              <PostContent htmlAst={htmlAst} />
+
+              {/* The big email subscribe modal content */}
+              {config.showSubscribe && <Subscribe title={config.title} />}
+
+              <PostFullFooter>
+                <AuthorCard author={author} />
+                <PostFullFooterRight authorId={author.id} />
+              </PostFullFooter>
+            </article>
+          </div>
+        </main>
+
+        {/* Links to Previous/Next posts */}
+        <aside className="read-next" css={outer}>
+          <div css={inner}>
+            <ReadNextFeed>
+              {relatedPosts && (
+                <ReadNextCard tags={tags} relatedPosts={relatedPosts} />
+              )}
+
+              {pageContext.prev && <PostCard post={pageContext.prev} />}
+              {pageContext.next && <PostCard post={pageContext.next} />}
+            </ReadNextFeed>
+          </div>
+        </aside>
+        <Footer />
+      </Wrapper>
+  );
+}
+
+const Post: React.FC<PostProps> = props => {
   const post = props.data.markdownRemark;
   let width = '';
   let height = '';
@@ -258,75 +353,22 @@ const PageTemplate: React.FC<PageTemplateProps> = props => {
         {width && <meta property="og:image:width" content={width} />}
         {height && <meta property="og:image:height" content={height} />}
       </Helmet>
-      <Wrapper css={PostTemplate}>
-        <header css={[outer, SiteHeader]}>
-          <div css={inner}>
-            <SiteNav />
-          </div>
-        </header>
-        <main id="site-main" className="site-main" css={[SiteMain, outer]}>
-          <div css={inner}>
-            {/* TODO: no-image css tag? */}
-            <article css={[PostFull, !post.frontmatter.image && NoImage]}>
-              <PostFullHeader>
-                <PostFullMeta>
-                  <PostFullMetaDate dateTime={post.frontmatter.date}>
-                    {post.frontmatter.userDate}
-                  </PostFullMetaDate>
-                  {post.frontmatter.tags &&
-                    post.frontmatter.tags.length > 0 && (
-                      <>
-                        <DateDivider>/</DateDivider>
-                        <Link to={`/tags/${_.kebabCase(post.frontmatter.tags[0])}/`}>
-                          {post.frontmatter.tags[0]}
-                        </Link>
-                      </>
-                  )}
-                </PostFullMeta>
-                <PostFullTitle>{post.frontmatter.title}</PostFullTitle>
-              </PostFullHeader>
-
-              {(post.frontmatter.image && post.frontmatter.image.childImageSharp) && (
-                <PostFullImage>
-                  <Img
-                    style={{ height: '100%' }}
-                    fluid={post.frontmatter.image.childImageSharp.fluid}
-                  />
-                </PostFullImage>
-              )}
-              <PostContent htmlAst={post.htmlAst} />
-
-              {/* The big email subscribe modal content */}
-              {config.showSubscribe && <Subscribe title={config.title} />}
-
-              <PostFullFooter>
-                <AuthorCard author={post.frontmatter.author} />
-                <PostFullFooterRight authorId={post.frontmatter.author.id} />
-              </PostFullFooter>
-            </article>
-          </div>
-        </main>
-
-        {/* Links to Previous/Next posts */}
-        <aside className="read-next" css={outer}>
-          <div css={inner}>
-            <ReadNextFeed>
-              {props.data.relatedPosts && (
-                <ReadNextCard tags={post.frontmatter.tags} relatedPosts={props.data.relatedPosts} />
-              )}
-
-              {props.pageContext.prev && <PostCard post={props.pageContext.prev} />}
-              {props.pageContext.next && <PostCard post={props.pageContext.next} />}
-            </ReadNextFeed>
-          </div>
-        </aside>
-        <Footer />
-      </Wrapper>
+      <PostTemplate
+        title={post.frontmatter.title}
+        image={post.frontmatter.image}
+        date={post.frontmatter.date}
+        author={post.frontmatter.author}
+        tags={post.frontmatter.tags}
+        userDate={post.frontmatter.userDate}
+        htmlAst={post.htmlAst}
+        relatedPosts={props.data.relatedPosts}
+        pageContext={props.pageContext}
+      />
     </IndexLayout>
   );
 };
 
-export default PageTemplate;
+export default Post;
 
 export const query = graphql`
   query($slug: String, $primaryTag: String) {
