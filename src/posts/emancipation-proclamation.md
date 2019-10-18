@@ -1,10 +1,10 @@
 ---
-title: "Great Gatsby"
-author: Another Author
-tags: []
+title: Great Gatsby Test
 image: /images/uploads/marvin-meyer-794521-unsplash.jpg
-date: "1922-12-12T10:00:00.000Z"
-draft: false
+author: Another Author
+tags:
+  - front-end
+date: '1922-12-12T10:00:00.000Z'
 ---
 
 In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.
