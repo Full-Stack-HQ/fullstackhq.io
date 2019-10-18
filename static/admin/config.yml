@@ -23,4 +23,5 @@ collections:
       - { name: author, label: Author }
       - { name: tags, label: Tags, widget: list }
       - { name: date, label: Date, widget: datetime }
+      - { name: draft, label: Draft, widget: boolean, default: true }
       - { name: body, label: Body, widget: markdown }

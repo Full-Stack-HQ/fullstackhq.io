@@ -107,8 +107,12 @@ module.exports = {
         siteSpeedSampleRate: 10,
       },
     },
-
-    `gatsby-plugin-netlify-cms`,
+    {
+      resolve: 'gatsby-plugin-netlify-cms',
+      options: {
+        modulePath: path.join(__dirname, 'src', 'cms', 'cms.ts'),
+      },
+    },
     {
       resolve: `gatsby-plugin-netlify-cms-paths`,
       options: {
