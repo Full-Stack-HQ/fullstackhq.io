@@ -58,10 +58,10 @@ const config: WebsiteConfig = {
   facebook: '',
   twitter: 'https://twitter.com/full_stack_hq',
   showSubscribe: true,
-  mailchimpAction: 'https://twitter.us19.list-manage.com/subscribe/post?u=a89b6987ac248c81b0b7f3a0f&amp;id=7d777b7d75',
-  mailchimpName: 'b_a89b6987ac248c81b0b7f3a0f_7d777b7d75',
-  mailchimpEmailFieldName: 'MERGE0',
-  googleSiteVerification: 'GoogleCode',
+  mailchimpAction: 'https://protonmail.us3.list-manage.com/subscribe/post?u=b8e63fd1a9dc032f08808fa81&amp;id=1950cd91b2',
+  mailchimpName: 'b_b8e63fd1a9dc032f08808fa81_1950cd91b2',
+  mailchimpEmailFieldName: 'EMAIL',
+  googleSiteVerification: '',
   footer: '',
 };
 
