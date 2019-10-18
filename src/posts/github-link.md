@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Github Sourcessss
-image: ../../static/images/uploads/callum-shaw-555357-unsplash.jpg
+title: Github Source
+image: /images/uploads/callum-shaw-555357-unsplash.jpg
 author: Ghost
 tags:
   - Source

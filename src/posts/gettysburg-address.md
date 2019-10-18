@@ -2,7 +2,7 @@
 title: "Gettysburg Address"
 author: Another Author
 tags: []
-image: ../../static/images/uploads/demo1.jpg
+image: /images/uploads/demo1.jpg
 date: "1863-11-19T10:00:00.000Z"
 draft: false
 ---

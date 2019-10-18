@@ -22,8 +22,15 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        // name: 'posts',
+        name: 'posts',
         path: path.join(__dirname, 'src', 'posts'),
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'uploads',
+        path: path.join(__dirname, 'static', 'images', 'uploads'),
       },
     },
     {
@@ -37,6 +44,12 @@ module.exports = {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
+          {
+            resolve: 'gatsby-remark-relative-images',
+            options: {
+              name: 'uploads',
+            },
+          },
           {
             resolve: 'gatsby-remark-responsive-iframe',
             options: {
