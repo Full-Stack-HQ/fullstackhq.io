@@ -20,8 +20,6 @@ const useSubscribeForm = (initialValues: FormInputs, callback: () => void) => {
       event.preventDefault();
     }
 
-    console.log('submit')
-
     const errorMessage = getErrorMessage('email', inputs.email.value);
     if (errorMessage) {
       setInputs(inputs => ({
@@ -40,7 +38,6 @@ const useSubscribeForm = (initialValues: FormInputs, callback: () => void) => {
 
   const handleChange = (event: FormEvent<Element>) => {
     event.persist();
-    console.log('change')
     const { name, value } = (event.target);
     setInputs(inputs => {
       return {
@@ -62,11 +59,10 @@ const useSubscribeForm = (initialValues: FormInputs, callback: () => void) => {
 };
 
 function getErrorMessage(inputName: string, value: string): string | undefined {
-  console.log('getErrorMessage');
   switch (inputName) {
     case 'email': 
       if (!value) {
-        return 'Please enter an email.'
+        return 'Email is required.'
       }
       return VALID_EMAIL_REGEX.test(value) ? undefined : 'Email is not valid!';
     default:
