@@ -34,6 +34,7 @@ interface TagTemplateProps {
         node: {
           id: string;
           description: string;
+          label: string;
           image?: {
             childImageSharp: {
               fluid: any;
@@ -98,7 +99,7 @@ const Tags: React.FC<TagTemplateProps> = props => {
           <div css={inner}>
             <SiteNav isHome={false} />
             <SiteHeaderContent>
-              <SiteTitle>{tag}</SiteTitle>
+              <SiteTitle>{tagData ? tagData.node.label : tag }</SiteTitle>
               <SiteDescription>
                 {tagData && tagData.node.description ? (
                   tagData.node.description
@@ -137,6 +138,7 @@ export const pageQuery = graphql`
         node {
           id
           description
+          label
           image {
             childImageSharp {
               fluid(maxWidth: 3720) {

@@ -100,10 +100,10 @@ interface MailChimpResponse {
 }
 
 interface SubscribeFormProps {
-  key: number;
+  
 }
 
-const SubscribeForm: React.FC<SubscribeFormProps> = ({ key }: SubscribeFormProps) => {
+const SubscribeForm: React.FC<SubscribeFormProps> = ({}: SubscribeFormProps) => {
 
   const subscribe = () => {
     addToMailchimp(inputs.email.value)
@@ -129,7 +129,6 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({ key }: SubscribeFormProps
       name="mc-embedded-subscribe-form"
       target="_blank"
       onSubmit={handleSubmit}
-      key={key}
     >
       {/* This is required for the form to work correctly  */}
       <FormGroup className="form-group">

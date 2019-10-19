@@ -1,12 +1,16 @@
 - id: speeches
+  label: Speeches
   description: Some of the greatest words ever spoken.
-  image: ./cover-images/speeches-cover.jpg
+  image: ./cover-images/blog-cover.jpg
 - id: front-end
-  description: Tutorials and thoughts on Front-End development
-  image: ./cover-images/frontend.jpg
+  label: Front-End
+  description: Tutorials and thoughts on Front-End development.
+  image: ./cover-images/blog-cover.jpg
 - id: back-end
-  description: Tutorials and thoughts on Back-End development
-  image: ./cover-images/backend.jpg
+  label: Back-End
+  description: Tutorials and thoughts on Back-End development.
+  image: ./cover-images/blog-cover.jpg
 - id: devops
-  description: Tutorials and thoughts on DevOps practices
-  image: ./cover-images/devops.jpg
+  label: DevOps
+  description: Tutorials and thoughts on DevOps practices.
+  image: ./cover-images/blog-cover.jpg
