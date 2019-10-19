@@ -137,13 +137,6 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create tag pages
   const tagTemplate = path.resolve('./src/templates/tags.tsx');
-  const tags = _.uniq(
-    _.flatten(
-      result.data.allMarkdownRemark.edges.map(edge => {
-        return _.castArray(_.get(edge, 'node.frontmatter.tags', []));
-      }),
-    ),
-  );
   result.data.allTagsYaml.edges.forEach(edge => {
     createPage({
       path: `/tags/${_.kebabCase(edge.node.id)}/`,
