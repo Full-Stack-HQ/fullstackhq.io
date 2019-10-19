@@ -100,6 +100,13 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allTagsYaml {
+        edges {
+          node {
+            id
+          }
+    }
+    }
     }
   `);
 
@@ -128,6 +135,26 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
+  // Create tag pages
+  const tagTemplate = path.resolve('./src/templates/tags.tsx');
+  const tags = _.uniq(
+    _.flatten(
+      result.data.allMarkdownRemark.edges.map(edge => {
+        return _.castArray(_.get(edge, 'node.frontmatter.tags', []));
+      }),
+    ),
+  );
+  result.data.allTagsYaml.edges.forEach(edge => {
+    createPage({
+      path: `/tags/${_.kebabCase(edge.node.id)}/`,
+      component: tagTemplate,
+      context: {
+        tag: edge.node.id,
+      },
+    });
+  });
+
+
   posts.forEach(({ node }, index) => {
     const { slug, layout } = node.fields;
     const prev = index === 0 ? null : posts[index - 1].node;
@@ -151,25 +178,6 @@ exports.createPages = async ({ graphql, actions }) => {
         prev,
         next,
         primaryTag: node.frontmatter.tags ? node.frontmatter.tags[0] : '',
-      },
-    });
-  });
-
-  // Create tag pages
-  const tagTemplate = path.resolve('./src/templates/tags.tsx');
-  const tags = _.uniq(
-    _.flatten(
-      result.data.allMarkdownRemark.edges.map(edge => {
-        return _.castArray(_.get(edge, 'node.frontmatter.tags', []));
-      }),
-    ),
-  );
-  tags.forEach(tag => {
-    createPage({
-      path: `/tags/${_.kebabCase(tag)}/`,
-      component: tagTemplate,
-      context: {
-        tag,
       },
     });
   });
