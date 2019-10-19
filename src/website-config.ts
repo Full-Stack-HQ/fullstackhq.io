@@ -58,9 +58,7 @@ const config: WebsiteConfig = {
   facebook: '',
   twitter: 'https://twitter.com/full_stack_hq',
   showSubscribe: true,
-  mailchimpAction: 'https://protonmail.us3.list-manage.com/subscribe/post?u=b8e63fd1a9dc032f08808fa81&amp;id=1950cd91b2',
-  mailchimpName: 'b_b8e63fd1a9dc032f08808fa81_1950cd91b2',
-  mailchimpEmailFieldName: 'EMAIL',
+  mailchimpName: 'b_b8e63fd1a9dc032f08808fa81_406859c1ec',
   googleSiteVerification: '',
   footer: '',
 };

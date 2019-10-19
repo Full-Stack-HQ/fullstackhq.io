@@ -147,10 +147,14 @@ const SubscribeOverlayDescription = styled.p`
 
 interface SubscribeState {
   isOpen: boolean;
+  formKey: number;
 }
 
 class SubscribeModal extends React.Component<any, SubscribeState> {
-  state = { isOpen: false };
+  state = {
+    isOpen: false,
+    formKey: 0,
+  };
 
   componentWillUnmount() {
     this.unsubscribeEsc();
@@ -176,8 +180,8 @@ class SubscribeModal extends React.Component<any, SubscribeState> {
   };
 
   close = () => {
-    this.setState({ isOpen: false });
     this.unsubscribeEsc();
+    this.setState((state) => ({ isOpen: false, formKey: state.formKey + 1 }) );
   };
 
   render() {
@@ -191,7 +195,7 @@ class SubscribeModal extends React.Component<any, SubscribeState> {
             Stay up to date! Get all the latest &amp; greatest posts delivered straight to your
             inbox
           </SubscribeOverlayDescription>
-          <SubscribeForm />
+          <SubscribeForm key={this.state.formKey} />
         </SubscribeOverlayContent>
       </SubscribeOverlay>
     );

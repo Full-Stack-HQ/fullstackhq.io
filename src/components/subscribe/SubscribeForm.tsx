@@ -1,10 +1,13 @@
 import { darken, desaturate, lighten, mix } from 'polished';
-import * as React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import addToMailchimp from 'gatsby-plugin-mailchimp'
 
 import { colors } from '../../styles/colors';
 import config from '../../website-config';
+import useSubscribeForm from './useSubscribeForm';
+import { FormInputState, FormInputs } from '../../models/forms';
 
 const SubscribeFormStyles = css`
   @media (max-width: 500px) {
@@ -82,26 +85,65 @@ const FormGroup = styled.div`
   }
 `;
 
-const SubscribeForm: React.FC = () => {
+const subscribeFormInitialState: FormInputs = {
+  email: {
+    value: ''
+  }
+}
+
+const MAILCHIMP_SUCCESS = 'success';
+const MAILCHIMP_ERROR = 'error';
+
+interface MailChimpResponse {
+  result: string;
+  msg: string;
+}
+
+interface SubscribeFormProps {
+  key: number;
+}
+
+const SubscribeForm: React.FC<SubscribeFormProps> = ({ key }: SubscribeFormProps) => {
+
+  const subscribe = () => {
+    addToMailchimp(inputs.email.value)
+      .then((response: MailChimpResponse) => {
+        setSubscribeResult(response.result);
+      })
+      .catch(error => {
+        setSubscribeResult(MAILCHIMP_ERROR);
+      });
+    
+  };
+
+  const { inputs, handleChange, handleSubmit } = useSubscribeForm(subscribeFormInitialState, subscribe);
+  const [ subscribeResult, setSubscribeResult ] = useState('');
+
   return (
-    <form
+    <>
+    { !!subscribeResult && <div>Your submission has been received.</div> }
+    { !subscribeResult && <form
       noValidate
       css={SubscribeFormStyles}
-      action={config.mailchimpAction}
-      method="post"
       id="mc-embedded-subscribe-form"
       name="mc-embedded-subscribe-form"
       target="_blank"
+      onSubmit={handleSubmit}
+      key={key}
     >
       {/* This is required for the form to work correctly  */}
       <FormGroup className="form-group">
         <SubscribeEmail
           className="subscribe-email"
           type="email"
-          name={config.mailchimpEmailFieldName}
-          id={config.mailchimpEmailFieldName}
+          name="email"
+          id="email"
           placeholder="youremail@example.com"
+          onChange={handleChange}
+          value={inputs.email.value}
+          required
         />
+        { inputs.email.errorMessage && <div>{inputs.email.errorMessage}</div> }
       </FormGroup>
       <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
         <input type="text" name={config.mailchimpName} tabIndex={-1} />
@@ -109,7 +151,9 @@ const SubscribeForm: React.FC = () => {
       <SubscribeFormButton type="submit">
         <span>Subscribe</span>
       </SubscribeFormButton>
-    </form>
+      
+    </form>}
+    </>
   );
 };
 
