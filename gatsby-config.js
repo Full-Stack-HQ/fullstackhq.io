@@ -108,6 +108,12 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-plugin-mailchimp',
+      options: {
+          endpoint: 'https://protonmail.us3.list-manage.com/subscribe/post?u=b8e63fd1a9dc032f08808fa81&amp;id=406859c1ec',
+      },
+    },
+    {
       resolve: 'gatsby-plugin-netlify-cms',
       options: {
         modulePath: path.join(__dirname, 'src', 'cms', 'cms.ts'),
