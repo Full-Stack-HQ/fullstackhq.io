@@ -21,6 +21,10 @@ export interface WebsiteConfig {
    */
   twitter?: string;
   /**
+   * full url, no username
+   */
+  github?: string;
+  /**
    * hide or show all email subscribe boxes
    */
   showSubscribe: boolean;
@@ -57,6 +61,7 @@ const config: WebsiteConfig = {
   siteUrl: 'https://fullstackhq.io',
   facebook: '',
   twitter: 'https://twitter.com/full_stack_hq',
+  github: 'https://github.com/Full-Stack-HQ',
   showSubscribe: true,
   mailchimpName: 'b_b8e63fd1a9dc032f08808fa81_406859c1ec',
   googleSiteVerification: '',

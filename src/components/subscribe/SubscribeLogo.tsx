@@ -8,7 +8,7 @@ const SubscribeOverlayLogo = styled.img`
   position: fixed;
   top: 23px;
   left: 30px;
-  height: 30px;
+  height: 60px;
 `;
 
 interface SiteNavLogoProps {
@@ -23,7 +23,7 @@ const SubscribeLogo = () => (
   <StaticQuery
     query={graphql`
       query SubscribeOverlayLogo {
-        logo: file(relativePath: { eq: "ghost-logo.png" }) {
+        logo: file(relativePath: { eq: "full-stack-hq-logo.png" }) {
           childImageSharp {
             # Specify the image processing specifications right in the query.
             # Makes it trivial to update as your page's design changes.
