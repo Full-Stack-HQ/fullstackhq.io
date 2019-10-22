@@ -1,4 +1,6 @@
 const path = require('path');
+const queries = require("./src/utils/algolia")
+require("dotenv").config()
 
 module.exports = {
   siteMetadata: {
@@ -111,6 +113,15 @@ module.exports = {
       resolve: 'gatsby-plugin-mailchimp',
       options: {
           endpoint: 'https://protonmail.us3.list-manage.com/subscribe/post?u=b8e63fd1a9dc032f08808fa81&amp;id=406859c1ec',
+      },
+    },
+    {
+      resolve: `gatsby-plugin-algolia`,
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        queries,
+        chunkSize: 10000, // default: 1000
       },
     },
     {

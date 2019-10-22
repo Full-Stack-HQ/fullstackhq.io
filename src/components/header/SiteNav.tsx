@@ -10,6 +10,8 @@ import Facebook from '../icons/facebook';
 import Twitter from '../icons/twitter';
 import SubscribeModal from '../subscribe/SubscribeOverlay';
 import SiteNavLogo from './SiteNavLogo';
+import Search from '../search/Search';
+import { PostHit } from '../search/SearchHits';
 
 const HomeNavRaise = css`
   @media (min-width: 900px) {
@@ -112,6 +114,10 @@ const SubscribeButton = styled.a`
   }
 `;
 
+const searchIndices = [
+  { name: `Posts`, title: `Blog Posts`, hitComp: PostHit },
+];
+
 interface SiteNavProps {
   isHome?: boolean;
 }
@@ -151,6 +157,7 @@ class SiteNav extends React.Component<SiteNavProps> {
           </ul>
         </SiteNavLeft>
         <SiteNavRight>
+          <Search collapse={true} indices={searchIndices} />
           <SocialLinks>
             {config.facebook && (
               <a
