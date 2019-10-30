@@ -7,6 +7,7 @@ import { css } from '@emotion/core';
 import { colors } from '../styles/colors';
 import { outer, inner } from '../styles/shared';
 import config from '../website-config';
+import { pageBreaks } from '../styles/page-breaks';
 
 const SiteFooter = css`
   position: relative;
@@ -30,7 +31,7 @@ const SiteFooterContent = css`
     color: rgba(255, 255, 255, 1);
     text-decoration: none;
   }
-  @media (max-width: 650px) {
+  @media (max-width: ${pageBreaks.small}) {
     flex-direction: column;
   }
 `;
@@ -58,7 +59,7 @@ const SiteFooterNav = styled.nav`
   a:first-of-type:before {
     display: none;
   }
-  @media (max-width: 650px) {
+  @media (max-width: ${pageBreaks.small}) {
     a:first-child {
       margin-left: 0;
     }
@@ -79,6 +80,7 @@ const Footer: React.FC = () => {
         </section>
         <SiteFooterNav>
           <Link to="/">Latest Posts</Link>
+          <Link to="/contributing">Contributing</Link>
           {config.facebook && (
             <a href={config.facebook} target="_blank" rel="noopener noreferrer">
               Facebook

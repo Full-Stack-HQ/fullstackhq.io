@@ -2,6 +2,7 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { colors } from './colors';
 import { darken, lighten } from 'polished';
+import { pageBreaks } from './page-breaks';
 
 export const outer = css`
   position: relative;
@@ -12,6 +13,12 @@ export const outer = css`
 export const inner = css`
   margin: 0 auto;
   max-width: 1040px;
+  width: 100%;
+`;
+
+export const postInner = css`
+  margin: 0 auto;
+  max-width: 680px;
   width: 100%;
 `;
 
@@ -129,7 +136,7 @@ export const SiteHeaderStyles = css`
     height: 80px;
     background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
   }
-  @media (max-width: 700px) {
+  @media (max-width: ${pageBreaks.smallPlus}) {
     padding-right: 0;
     padding-left: 0;
   }
@@ -144,4 +151,9 @@ export const AuthorProfileImage = css`
   margin-right: 15px;
   width: 60px;
   height: 60px;
+`;
+
+export const ImageLabel = css`
+  font-size: 1.5rem;
+  text-align: center;
 `;

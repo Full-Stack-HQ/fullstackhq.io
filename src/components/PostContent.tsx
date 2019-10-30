@@ -4,51 +4,52 @@ import styled from '@emotion/styled';
 import RehypeReact from 'rehype-react';
 
 import { colors } from '../styles/colors';
+import { pageBreaks } from '../styles/page-breaks';
 
 export const PostFullContent = styled.section`
   position: relative;
   margin: 0 auto;
-  padding: 70px 100px 0;
+  // padding: 70px 100px 0;
   min-height: 230px;
-  font-family: Georgia, serif;
+  font-family: Montserrat, sans-serif;
   font-size: 2.2rem;
   line-height: 1.6em;
   background: #fff;
 
-  @media (max-width: 1170px) {
+  @media (max-width: ${pageBreaks.xlarge}) {
     padding: 5vw 7vw 0;
   }
-  @media (max-width: 800px) {
+  @media (max-width: ${pageBreaks.medium}) {
     font-size: 1.9rem;
   }
 
-  :before {
-    content: '';
-    position: absolute;
-    top: 15px;
-    left: -5px;
-    z-index: -1;
-    display: block;
-    width: 20px;
-    height: 200px;
-    background: rgba(39, 44, 49, 0.15);
-    filter: blur(5px);
-    transform: rotate(-5deg);
-  }
+  // :before {
+  //   content: '';
+  //   position: absolute;
+  //   top: 15px;
+  //   left: -5px;
+  //   z-index: -1;
+  //   display: block;
+  //   width: 20px;
+  //   height: 200px;
+  //   background: rgba(39, 44, 49, 0.15);
+  //   filter: blur(5px);
+  //   transform: rotate(-5deg);
+  // }
 
-  :after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    right: -5px;
-    z-index: -1;
-    display: block;
-    width: 20px;
-    height: 200px;
-    background: rgba(39, 44, 49, 0.15);
-    filter: blur(5px);
-    transform: rotate(5deg);
-  }
+  // :after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 15px;
+  //   right: -5px;
+  //   z-index: -1;
+  //   display: block;
+  //   width: 20px;
+  //   height: 200px;
+  //   background: rgba(39, 44, 49, 0.15);
+  //   filter: blur(5px);
+  //   transform: rotate(5deg);
+  // }
 
   h1,
   h2,
@@ -113,7 +114,7 @@ export const PostFullContent = styled.section`
     height: auto;
   }
 
-  @media (max-width: 1040px) {
+  @media (max-width: ${pageBreaks.large}) {
     img,
     video {
       width: 100%;
@@ -234,7 +235,7 @@ export const PostFullContent = styled.section`
     font-size: 4.6rem;
     font-weight: 700;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h1 {
       font-size: 2.8rem;
     }
@@ -245,7 +246,7 @@ export const PostFullContent = styled.section`
     font-size: 3.6rem;
     font-weight: 700;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h2 {
       font-size: 2.6rem;
     }
@@ -256,7 +257,7 @@ export const PostFullContent = styled.section`
     font-size: 2.8rem;
     font-weight: 700;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h3 {
       font-size: 2.2rem;
     }
@@ -267,7 +268,7 @@ export const PostFullContent = styled.section`
     font-size: 2.8rem;
     font-weight: 700;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h4 {
       font-size: 2.2rem;
     }
@@ -279,7 +280,7 @@ export const PostFullContent = styled.section`
     padding: 1em 0 1.5em;
     border: 0;
     color: ${colors.blue};
-    font-family: Georgia, serif;
+    font-family: Montserrat, sans-serif;
     font-size: 3.2rem;
     line-height: 1.35em;
     text-align: center;
@@ -289,7 +290,7 @@ export const PostFullContent = styled.section`
       max-width: 1060px;
     }
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h5 {
       padding: 0 0 0.5em;
       font-size: 2.2rem;
@@ -301,7 +302,7 @@ export const PostFullContent = styled.section`
     font-size: 2.3rem;
     font-weight: 700;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h6 {
       font-size: 2rem;
     }
@@ -372,7 +373,7 @@ export const PostFullContent = styled.section`
     border: ${setSaturation('0.05', darken('0.01', colors.whitegrey))} 1px solid;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     padding: 0;
     :before {
       display: none;
@@ -437,10 +438,10 @@ export const PostFullContent = styled.section`
   }
 
   /* Inline code */
-  :not(pre) > code[class*='language-'] {
+  * :not(pre) > code[class*='language-'] {
     border-radius: 0.3em;
-    background: var(--inlineCode-bg);
-    color: var(--inlineCode-text);
+    background: rgba(255, 229, 100, 0.2);
+    color: #1a1a1a;
     padding: 0.15em 0.2em 0.05em;
     white-space: normal;
   }
