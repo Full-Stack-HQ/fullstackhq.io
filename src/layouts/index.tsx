@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import { colors } from '../styles/colors';
 // @ts-ignore
 import favicon from '../../src/favicon.ico';
+import { pageBreaks } from '../styles/page-breaks';
 
 interface IndexProps {
   className?: string;
@@ -324,7 +325,7 @@ const GlobalStyles = css`
   ol,
   dl,
   blockquote {
-    margin: 0 0 1.5em 0;
+    margin: 2em 0 0 0;
   }
 
   ol,
@@ -429,7 +430,7 @@ const GlobalStyles = css`
     font-size: 5rem;
     font-weight: 700;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h1 {
       font-size: 2.2rem;
     }
@@ -439,7 +440,7 @@ const GlobalStyles = css`
     margin: 1.5em 0 0.5em 0;
     font-size: 2rem;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h2 {
       font-size: 1.8rem;
     }
@@ -450,7 +451,7 @@ const GlobalStyles = css`
     font-size: 1.8rem;
     font-weight: 500;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     h3 {
       font-size: 1.7rem;
     }
@@ -484,6 +485,7 @@ const IndexLayout: React.FC<IndexProps> = props => {
     <div className={props.className}>
       <Helmet>
         <link rel="icon" href={favicon} type="image/x-icon" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
       </Helmet>
       <Global styles={GlobalStyles} />
       {props.children}

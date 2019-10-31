@@ -56,7 +56,12 @@ module.exports = {
               wrapperStyle: 'margin-bottom: 1rem',
             },
           },
-          'gatsby-remark-prismjs',
+          {
+            resolve: 'gatsby-remark-prismjs',
+            // options: {
+            //   inlineCodeMarker: '÷',
+            // },
+          },
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
           'gatsby-remark-abbr',
@@ -67,6 +72,7 @@ module.exports = {
               quality: 90,
             },
           },
+          `gatsby-plugin-netlify-cms-paths`,
         ],
       },
     },
@@ -83,12 +89,12 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-yaml',
     'gatsby-plugin-feed',
-    {
-      resolve: 'gatsby-plugin-postcss',
-      options: {
-        postCssPlugins: [require('postcss-color-function'), require('cssnano')()],
-      },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-postcss',
+    //   options: {
+    //     postCssPlugins: [require('postcss-color-function'), require('cssnano')()],
+    //   },
+    // },
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
@@ -125,14 +131,6 @@ module.exports = {
         // Path to your Netlify CMS config file
         cmsConfig: `/static/admin/config.yml`
       }
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          `gatsby-plugin-netlify-cms-paths`,
-        ],
-      },
     },
   ],
 };

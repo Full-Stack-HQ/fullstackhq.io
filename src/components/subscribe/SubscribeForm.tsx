@@ -8,9 +8,10 @@ import { colors } from '../../styles/colors';
 import config from '../../website-config';
 import useSubscribeForm from './useSubscribeForm';
 import { FormInputState, FormInputs } from '../../models/forms';
+import { pageBreaks } from '../../styles/page-breaks';
 
 const SubscribeFormStyles = css`
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     -ms-flex-direction: column;
     flex-direction: column;
   }
@@ -72,7 +73,7 @@ const SubscribeFormButton = styled.button`
     /* background: color(var(--blue) lightness(-9%) saturation(-10%)); */
     background: ${desaturate('0.1', darken('0.09', colors.blue))};
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     margin: 10px 0 0;
     width: 100%;
   }
@@ -80,7 +81,7 @@ const SubscribeFormButton = styled.button`
 
 const FormGroup = styled.div`
   flex-grow: 1;
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     width: 100%;
   }
 `;

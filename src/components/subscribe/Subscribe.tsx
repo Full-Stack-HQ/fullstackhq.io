@@ -5,6 +5,7 @@ import { css } from '@emotion/core';
 
 import { colors } from '../../styles/colors';
 import SubscribeForm from './SubscribeForm';
+import { pageBreaks } from '../../styles/page-breaks';
 
 const SubscribeFormSection = styled.section`
   margin: 1.5em 0;
@@ -35,7 +36,7 @@ const SubscribeFormSection = styled.section`
   .form-group {
     flex-grow: 1;
   }
-  @media (max-width: 650px) {
+  @media (max-width: ${pageBreaks.small}) {
     p {
       font-size: 1.6rem;
     }
@@ -49,7 +50,7 @@ const SubscribeFormTitle = css`
   font-size: 3.5rem;
   line-height: 1;
   font-weight: 700;
-  @media (max-width: 650px) {
+  @media (max-width: ${pageBreaks.small}) {
     font-size: 2.4rem;
   }
 `;

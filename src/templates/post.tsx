@@ -19,8 +19,9 @@ import Subscribe from '../components/subscribe/Subscribe';
 import Wrapper from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
-import { inner, outer, SiteHeader, SiteMain } from '../styles/shared';
+import { inner, outer, SiteHeader, SiteMain, postInner } from '../styles/shared';
 import config from '../website-config';
+import { pageBreaks } from '../styles/page-breaks';
 
 const StyledPostTemplate = css`
   .site-main {
@@ -47,11 +48,11 @@ export const NoImage = css`
 
 export const PostFullHeader = styled.header`
   margin: 0 auto;
-  padding: 6vw 3vw 3vw;
+  padding: 6vw 2vw 3vw;
   max-width: 1040px;
   text-align: center;
 
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     padding: 14vw 3vw 10vw;
   }
 `;
@@ -65,7 +66,7 @@ const PostFullMeta = styled.section`
   font-weight: 600;
   text-transform: uppercase;
 
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     font-size: 1.2rem;
     line-height: 1.3em;
   }
@@ -78,28 +79,28 @@ const PostFullMetaDate = styled.time`
 export const PostFullTitle = styled.h1`
   margin: 0;
   color: ${setLightness('0.05', colors.darkgrey)};
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     font-size: 2.9rem;
   }
 `;
 
 const PostFullImage = styled.figure`
-  margin: 0 -10vw -165px;
-  height: 800px;
+  // margin: 0 -10vw -165px;
+  // height: 800px;
   background: ${colors.lightgrey} center center;
-  background-size: cover;
+  // background-size: cover;
   border-radius: 5px;
 
-  @media (max-width: 1170px) {
+  @media (max-width: ${pageBreaks.xlarge}) {
     margin: 0 -4vw -100px;
     height: 600px;
     border-radius: 0;
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: ${pageBreaks.medium}) {
     height: 400px;
   }
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     margin-bottom: 4vw;
     height: 350px;
   }
@@ -241,7 +242,7 @@ export const PostTemplate: React.FC<PostTemplateProps> = ({
           </div>
         </header>
         <main id="site-main" className="site-main" css={[SiteMain, outer]}>
-          <div css={inner}>
+          <div css={postInner}>
             {/* TODO: no-image css tag? */}
             <article css={[PostFull, !image && NoImage]}>
               <PostFullHeader>
@@ -272,8 +273,7 @@ export const PostTemplate: React.FC<PostTemplateProps> = ({
               )}
               <PostContent htmlAst={htmlAst} />
 
-              {/* The big email subscribe modal content */}
-              {config.showSubscribe && <Subscribe title={config.title} />}
+              
 
               <PostFullFooter>
                 <AuthorCard author={author} />
@@ -285,7 +285,9 @@ export const PostTemplate: React.FC<PostTemplateProps> = ({
 
         {/* Links to Previous/Next posts */}
         <aside className="read-next" css={outer}>
-          <div css={inner}>
+          <div css={outer}>
+          {/* The big email subscribe modal content */}
+          {config.showSubscribe && <Subscribe title={config.title} />}
             <ReadNextFeed>
               {relatedPosts && (
                 <ReadNextCard tags={tags} relatedPosts={relatedPosts} />

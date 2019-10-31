@@ -20,6 +20,7 @@ import {
 import { PageContext } from './post';
 import Helmet from 'react-helmet';
 import config from '../website-config';
+import NoPosts from '../components/NoPosts';
 
 interface TagTemplateProps {
   pathContext: {
@@ -64,7 +65,7 @@ const Tags: React.FC<TagTemplateProps> = props => {
       <Helmet>
         <html lang={config.lang} />
         <title>
-          {tag} - {config.title}
+          { tagData ? tagData.node.label : tag } | {config.title}
         </title>
         <meta
           name="description"
@@ -116,11 +117,15 @@ const Tags: React.FC<TagTemplateProps> = props => {
         </header>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
-            <div css={[PostFeed, PostFeedRaise]}>
-              {edges.map(({ node }) => (
-                <PostCard key={node.fields.slug} post={node} />
-              ))}
-            </div>
+            { totalCount !== 0 ? (
+              <div css={[PostFeed, PostFeedRaise]}>
+                {edges.map(({ node }) => (
+                  <PostCard key={node.fields.slug} post={node} />
+                ))}
+              </div>
+            ) : (
+              <NoPosts />
+            )}
           </div>
         </main>
         <Footer />

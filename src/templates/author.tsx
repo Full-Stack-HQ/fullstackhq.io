@@ -26,9 +26,10 @@ import Helmet from 'react-helmet';
 import config from '../website-config';
 import Website from '../components/icons/website';
 import Twitter from '../components/icons/twitter';
+import { pageBreaks } from '../styles/page-breaks';
 
 const HiddenMobile = css`
-  @media (max-width: 500px) {
+  @media (max-width: ${pageBreaks.tinyPlus}) {
     display: none;
   }
 `;
@@ -40,7 +41,7 @@ const AuthorMeta = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 0 10px 0;
-  font-family: Georgia, serif;
+  font-family: Montserrat, sans-serif;
   font-style: italic;
 `;
 

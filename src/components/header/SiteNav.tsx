@@ -10,6 +10,7 @@ import Facebook from '../icons/facebook';
 import Twitter from '../icons/twitter';
 import SubscribeModal from '../subscribe/SubscribeOverlay';
 import SiteNavLogo from './SiteNavLogo';
+import { pageBreaks } from '../../styles/page-breaks';
 
 const HomeNavRaise = css`
   @media (min-width: 900px) {
@@ -42,7 +43,7 @@ const SiteNavLeft = styled.div`
 
   -ms-overflow-scrolling: touch;
 
-  @media (max-width: 700px) {
+  @media (max-width: ${pageBreaks.smallPlus}) {
     margin-right: 0;
     padding-left: 4vw;
   }
@@ -81,7 +82,7 @@ const SiteNavRight = styled.div`
   align-items: center;
   height: 40px;
 
-  @media (max-width: 700px) {
+  @media (max-width: ${pageBreaks.smallPlus}) {
     display: none;
   }
 `;

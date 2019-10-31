@@ -8,6 +8,7 @@ import { css } from '@emotion/core';
 
 import { colors } from '../styles/colors';
 import { PageContext } from '../templates/post';
+import { pageBreaks } from '../styles/page-breaks';
 
 const PostCardStyles = css`
   flex: 1 1 300px;
@@ -78,7 +79,7 @@ const PostCardTitle = styled.h2`
 `;
 
 const PostCardExcerpt = styled.section`
-  font-family: Georgia, serif;
+  font-family: Montserrat, sans-serif;
 `;
 
 const PostCardMeta = styled.footer`
@@ -156,7 +157,7 @@ const AuthorNameTooltip = styled.div`
   transform: translateY(6px);
   pointer-events: none;
 
-  @media (max-width: 650px) {
+  @media (max-width: ${pageBreaks.small}) {
     display: none;
   }
 `;
