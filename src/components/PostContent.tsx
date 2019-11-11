@@ -8,7 +8,7 @@ import { pageBreaks } from '../styles/page-breaks';
 
 export const PostFullContent = styled.section`
   position: relative;
-  margin: 0 auto;
+  margin: 2em auto 0 auto;
   // padding: 70px 100px 0;
   min-height: 230px;
   font-family: Montserrat, sans-serif;
