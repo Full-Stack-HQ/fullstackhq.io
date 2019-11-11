@@ -2,6 +2,8 @@
 layout: post
 title: "Angular Lazy Loading: the what, how, and why"
 image: /images/uploads/lazy.jpg
+imageCreditText: Photo by Martina Misar-Tummeltshammer on Unsplash
+imageCreditLink: https://unsplash.com/s/photos/cat-yawning?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
 author: David Seybold
 date: 2019-11-11T07:03:47.149Z
 tags: 
