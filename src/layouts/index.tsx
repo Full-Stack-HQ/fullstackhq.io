@@ -325,7 +325,7 @@ const GlobalStyles = css`
   ol,
   dl,
   blockquote {
-    margin: 2em 0 0 0;
+    margin: 2em 0 2em 0;
   }
 
   ol,
