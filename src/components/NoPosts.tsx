@@ -55,8 +55,8 @@ const NoPosts = () => {
           <ContributingMessage>
             <p>There's nothing here yet!</p>
             <p>
-              We are hard at work creating meaningful posts, but haven't gotten around to creating 
-              any here.
+              I'm hard at work creating meaningful posts, but haven't gotten around to creating 
+              any here yet.
             </p>
             <p>If you are interested in helping us out and contributing, find out more info <Link to="/contributing">here</Link>.</p>
           </ContributingMessage>
