@@ -87,7 +87,7 @@ export const PostFullTitle = styled.h1`
 const PostFullImage = styled.figure`
   // margin: 0 -10vw -165px;
   // height: 800px;
-  background: ${colors.lightgrey} center center;
+  // background: ${colors.lightgrey} center center;
   // background-size: cover;
   border-radius: 5px;
 
@@ -104,6 +104,11 @@ const PostFullImage = styled.figure`
     margin-bottom: 4vw;
     height: 350px;
   }
+`;
+
+const PostFullImageCaption = styled.figcaption`
+  text-align: center;
+  font-size: 1.25rem;
 `;
 
 const DateDivider = styled.span`
@@ -142,6 +147,8 @@ interface PostProps {
             fluid: any;
           };
         };
+        imageCreditText: string;
+        imageCreditLink: string;
         tags: string[];
         author: {
           id: string;
@@ -208,12 +215,16 @@ export interface PageContext {
 }
 
 interface PostTemplateProps {
-  image: any;
-  tags: Array<string>;
-  title: string;
-  date: string;
-  author: any;
-  userDate: string;
+  frontmatter: {
+    image: any;
+    tags: Array<string>;
+    title: string;
+    date: string;
+    author: any;
+    userDate: string;
+    imageCreditText: string;
+    imageCreditLink: string;
+  };
   htmlAst: any;
   relatedPosts: any;
   pageContext: {
@@ -223,12 +234,7 @@ interface PostTemplateProps {
 }
 
 export const PostTemplate: React.FC<PostTemplateProps> = ({
-  image,
-  tags,
-  title,
-  date,
-  author,
-  userDate,
+  frontmatter,
   htmlAst,
   relatedPosts,
   pageContext,
@@ -244,40 +250,49 @@ export const PostTemplate: React.FC<PostTemplateProps> = ({
         <main id="site-main" className="site-main" css={[SiteMain, outer]}>
           <div css={postInner}>
             {/* TODO: no-image css tag? */}
-            <article css={[PostFull, !image && NoImage]}>
+            <article css={[PostFull, !frontmatter.image && NoImage]}>
               <PostFullHeader>
                 <PostFullMeta>
-                  <PostFullMetaDate dateTime={date}>
-                    {userDate}
+                  <PostFullMetaDate dateTime={frontmatter.date}>
+                    {frontmatter.userDate}
                   </PostFullMetaDate>
-                  {tags &&
-                    tags.length > 0 && (
+                  {frontmatter.tags &&
+                    frontmatter.tags.length > 0 && (
                       <>
                         <DateDivider>/</DateDivider>
-                        <Link to={`/tags/${_.kebabCase(tags[0])}/`}>
-                          {tags[0]}
+                        <Link to={`/tags/${_.kebabCase(frontmatter.tags[0])}/`}>
+                          {frontmatter.tags[0]}
                         </Link>
                       </>
                   )}
                 </PostFullMeta>
-                <PostFullTitle>{title}</PostFullTitle>
+                <PostFullTitle>{frontmatter.title}</PostFullTitle>
               </PostFullHeader>
 
-              {(image && image.childImageSharp) && (
+              {(frontmatter.image && frontmatter.image.childImageSharp) && (
                 <PostFullImage>
                   <Img
                     style={{ height: '100%' }}
-                    fluid={image.childImageSharp.fluid}
+                    fluid={frontmatter.image.childImageSharp.fluid}
                   />
+                  <PostFullImageCaption>
+                    <a
+                      rel="nofollow"
+                      target="_blank"
+                      href={frontmatter.imageCreditLink}>
+                      {frontmatter.imageCreditText}
+                    </a>
+                  </PostFullImageCaption>
                 </PostFullImage>
+                
               )}
               <PostContent htmlAst={htmlAst} />
 
               
 
               <PostFullFooter>
-                <AuthorCard author={author} />
-                <PostFullFooterRight authorId={author.id} />
+                <AuthorCard author={frontmatter.author} />
+                <PostFullFooterRight authorId={frontmatter.author.id} />
               </PostFullFooter>
             </article>
           </div>
@@ -290,7 +305,7 @@ export const PostTemplate: React.FC<PostTemplateProps> = ({
           {config.showSubscribe && <Subscribe title={config.title} />}
             <ReadNextFeed>
               {relatedPosts && (
-                <ReadNextCard tags={tags} relatedPosts={relatedPosts} />
+                <ReadNextCard tags={frontmatter.tags} relatedPosts={relatedPosts} />
               )}
 
               {pageContext.prev && <PostCard post={pageContext.prev} />}
@@ -356,12 +371,7 @@ const Post: React.FC<PostProps> = props => {
         {height && <meta property="og:image:height" content={height} />}
       </Helmet>
       <PostTemplate
-        title={post.frontmatter.title}
-        image={post.frontmatter.image}
-        date={post.frontmatter.date}
-        author={post.frontmatter.author}
-        tags={post.frontmatter.tags}
-        userDate={post.frontmatter.userDate}
+        frontmatter={post.frontmatter}
         htmlAst={post.htmlAst}
         relatedPosts={props.data.relatedPosts}
         pageContext={props.pageContext}
@@ -398,6 +408,8 @@ export const query = graphql`
             }
           }
         }
+        imageCreditText
+        imageCreditLink
         author {
           id
           bio
