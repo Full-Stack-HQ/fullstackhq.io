@@ -20,6 +20,8 @@ collections:
       - { name: layout, label: Layout, widget: hidden, default: "post" }
       - { name: title, label: Title }
       - { name: image, label: Image, widget: image, allow_multiple: false }
+      - { name: imageCreditText, label: "Image Credit Text" }
+      - { name: imageCreditLink, label: "Image Credit Link" }
       - { name: author, label: Author }
       - { name: tags, label: Tags, widget: list }
       - { name: date, label: Date, widget: datetime }
