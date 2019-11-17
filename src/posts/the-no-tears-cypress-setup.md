@@ -120,3 +120,18 @@ module.exports = (on, config) => {
   on("file:preprocessor", preprocess);
 }
 ```
+That's it. Now we should be able to write our tests in Typescript. Let's not take my word for it though. We should add a sample test to verify everything is working correctly. Go ahead and remove all of the sample tests that were created by the initialization process. Create a folder called `google` and a file inside that called `search.spec.ts` with these contents.
+```ts
+// cypress/google/search.spec.ts
+describe('When I visit Google', () => {
+  beforeEach(() => {
+    cy.visit('https://google.com/imghp')
+  })
+
+  it('I should be able to search', () => {
+    cy.get('input[title="Search"]')
+      .type('cat pictures{enter}');
+  })
+});
+```
+This is a super simple test that goes to the Google Images page and searches for cat pictures, because who doesn't love a good cat picture. To test this, in your terminal run `npm run cypress:open` which is the command we configured earlier. The Cypress test runner should open and you should be able to select our new test and run it. It should pass.
