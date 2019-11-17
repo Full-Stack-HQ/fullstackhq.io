@@ -33,12 +33,19 @@ When this command is run it will open the Cypress UI. Since this is the first ti
 
 ### File structure
 After initialization, there will be a `cypress` folder that gets initialized inside the root directory of your application. Inside that folder, four more will also have been created. 
+```
+- cypress
+  |- fixtures
+  |- integration
+  |- plugins
+  |- support
+```
 ###### fixtures
 The fixtures folder is where you can store static data used throughout your tests. This can include test data or mock responses. We won't spend much time talking about this part of Cypress, but if you are interested in learning more I would start [here](https://docs.cypress.io/guides/core-concepts/writing-and-organ
 izing-tests.html#Fixture-Files).
 
 ###### integration
-This folder is where all of your tests will live.
+This folder is where all of your tests will live. The sample tests that you experimented with earlier will all have been generated here.
 
 ###### plugins
 Cypress is a E2E testing framework, but also has a node process that can be used to extend some of the functionality of Cypress. This would include configuring file pre-processors or loading configurations, both of which I will cover later on.
@@ -47,3 +54,69 @@ Cypress is a E2E testing framework, but also has a node process that can be used
 Out of the box Cypress provides the `support/index.js` file that will be run before every spec file. It can be used for a number of things such as a global beforeEach hook, overrides, and setting up custom commands which I will demonstrate as part of this post.
 
 ### Write Your Tests in Typescript
+By default, Cypress expects your tests to be written in Javascript. This is fine, however I am a big advocate for writing as much of your code base as in Typescript as possible. Just like the code of your main application, your tests should be easy to maintain and easy for someone who has never seen your code base to be able to easily understand what is happening. Typescript allows for your code to be more self-documenting than just plain Javascript.
+
+To write our tests in Typescript we need to take advantage of the plugins capability of Cypress. We are going to add a file pre-processor that will transpile any Typescript files we have to Javascript before running the tests. To do this we will need to install a few dependencies. 
+```sh
+➜ npm install -D ts-loader @cypress/webpack-preprocessor webpack typescript
+```
+You may have already installed some of these or they could exist as part of a transient dependency.
+
+Next, we will create a webpack config file inside our cypress folder with the following contents:
+```js
+// cypress/webpack.config.js
+module.exports = {
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
+  node: { fs: "empty", child_process: "empty", readline: "empty" },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: "ts-loader"
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+We also need to add a basic `tsconfig.json` file to our cypress directory. This is a basic one that you can use. They most important part is the `cypress` inside the types array as this is how your IDE will be able to use intellisense.
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "../node_modules",
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress"]
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}
+```
+Now, we need to tell Cypress to pre-process our test files with webpack and our webpack config. As you may have guessed from the earlier explanations of the file structure, this occurs inside the plugins directory in the `index.js` file. I am going to create a new file inside the plugins directory called `preprocess.js` inside which I will do all of the pre-processing logic that we need to do. It helps to simplify the `index.js` file.
+
+Here is the contents of that file:
+```js
+const webpack = require('@cypress/webpack-preprocessor')
+
+const options = {
+  webpackOptions: require("../webpack.config.js")
+};
+
+module.exports = webpack(options)
+```
+In this file we are passing our webpack config that we created earlier, into the Cypress webpack pre-processor. Cypress, still doesn't know about our pre-processor yet. To do that we will have to import our preprocess file into the `index.js` file and add one more line.
+```js
+const preprocess = require('./preprocess');
+
+module.exports = (on, config) => {
+  on("file:preprocessor", preprocess);
+}
+```
