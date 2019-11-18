@@ -186,3 +186,36 @@ return {
 ```
 I am using the spread operator to expand both the config that gets passed in and our custom config so that I end up with all of the config variables that were passed into the tests as well as those in our custom config. This means we preserve variables such as `TARGET_ENV` which we pass in from outside the tests.
 
+### Custom Commands
+Another aspect of Cypress that further enhances the developer experience and the reusability of tests is the ability to add custom commands. This is especially useful for functionalities like login or interacting with a common element across your application. Luckily, Cypress makes it extremely easy to add our own custom commands. 
+
+Earlier I mentioned that the support directory was a handy place to configure our custom commands and it is that which we will do now. First, let's create a folder underneath the support directory called `commands` and an `index.ts` file inside that. 
+
+For this example, I am going to create a custom command to enter text inside the search box on the Google search page. A consumer of this command should be able to call `cy.searchGoogle('text to search')`. Under the commands directory, create a new file called `search-google.ts` and paste the following code into it. (Don't worry, I will explain what is happening)
+```ts
+export function searchGoogle(searchText: string): void {
+  cy.get('input[title="Search"]')
+      .type(`${searchText}{enter}`);
+}
+
+Cypress.Commands.add('searchGoogle', searchGoogle);
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      searchGoogle: typeof searchGoogle 
+    }
+  }
+}
+```
+First, we define a function `searchGoogle` that takes a string, types it into the search input, and presses enter to search. There is nothing here that is much different than how you would write it in a normal test. 
+
+The next line is where we tell Cypress about our function and make it a command. The `Cypress.Commands.add` function takes two arguments here. The first is the name of the command. This would be how you want the command to be called. The second argument is the function that will be called when the command is invoked. After that line, your command is ready to be used, however if you are using Typescript (and I hope you are) your IDE won't know about the command.
+
+To make sure that the intellisense works for the IDE we need to use a Typescript feature called interface merging. Essentially, we add on our command declaration to the Cypress namespace and the `Chainable` interface that all of the Cypress commands already exist on. After doing that we can use our command just like any of the other Cypress commands with intellisense and everything.
+
+
+The code up to this point can be found in [this](https://github.com/Full-Stack-HQ/base-cypress-setup/tree/no-cucumber) git repository on the `no-cucumber` branch.
+
+### Cucumber Setup
+As we have seen so far Cypress gives us the ability to write end-to-end tests similarly to how we would write unit tests. This is one way of writing your tests, however a lot of you might be coming from using Cucumber in your end-to-end tests. This is not something that Cypress provides support for out of the box however, similar to how we setup Typescript we can use a pre-processor to allow the use of Cucumber.
