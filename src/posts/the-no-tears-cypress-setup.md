@@ -65,23 +65,23 @@ Next, we will create a webpack config file inside our cypress folder with the fo
 ```js
 // cypress/webpack.config.js
 module.exports = {
- resolve: {
- extensions: [".ts", ".js"]
- },
- node: { fs: "empty", child_process: "empty", readline: "empty" },
- module: {
- rules: [
- {
- test: /\.ts$/,
- exclude: [/node_modules/],
- use: [
- {
- loader: "ts-loader"
- }
- ]
- }
- ]
- }
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
+  node: { fs: "empty", child_process: "empty", readline: "empty" },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: "ts-loader"
+          }
+        ]
+      }
+    ]
+  }
 };
 ```
 We also need to add a basic `tsconfig.json` file to our cypress directory. This is a basic one that you can use. They most important part is the `cypress` inside the types array as this is how your IDE will be able to use intellisense.
@@ -95,7 +95,7 @@ We also need to add a basic `tsconfig.json` file to our cypress directory. This 
  "types": ["cypress"]
  },
  "include": [
- "**/*.ts"
+   "**/*.ts"
  ]
 }
 ```
@@ -124,12 +124,12 @@ That's it. Now we should be able to write our tests in Typescript. Let's not tak
 // cypress/google/search.spec.ts
 describe('When I visit Google', () => {
  beforeEach(() => {
- cy.visit('https://google.com/imghp')
- })
+   cy.visit('https://google.com/imghp')
+ });
  
  it('I should be able to search', () => {
- cy.get('input[title="Search"]')
- .type('cat pictures{enter}');
+   cy.get('input[title="Search"]')
+     .type('cat pictures{enter}');
  })
 });
 ```
