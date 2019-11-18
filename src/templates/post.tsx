@@ -331,7 +331,7 @@ const Post: React.FC<PostProps> = props => {
     <IndexLayout className="post-template">
       <Helmet>
         <html lang={config.lang} />
-        <title>{post.frontmatter.title}</title>
+        <title>{post.frontmatter.title} | {config.title}</title>
 
         <meta name="description" content={post.excerpt} />
         <meta property="og:site_name" content={config.title} />

@@ -1,5 +1,6 @@
 export interface WebsiteConfig {
   title: string;
+  slogan: string;
   description: string;
   coverImage: string;
   logo: string;
@@ -54,7 +55,8 @@ export interface WebsiteConfig {
 
 const config: WebsiteConfig = {
   title: 'Full-Stack HQ',
-  description: '',
+  slogan: 'Learn. Build. Share. Repeat.',
+  description: 'Learn. Build. Share. Repeat. At Full-Stack HQ we want to be the resource that helps you take your skills to the next level.',
   coverImage: 'blog-cover.jpg',
   logo: 'full-stack-hq-logo.png',
   lang: 'en',

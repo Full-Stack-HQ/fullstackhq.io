@@ -130,7 +130,7 @@ const Author: React.FC<AuthorTemplateProps> = props => {
       <Helmet>
         <html lang={config.lang} />
         <title>
-          {author.id} - {config.title}
+          {author.id} | {config.title}
         </title>
         <meta name="description" content={author.bio} />
         <meta property="og:site_name" content={config.title} />
