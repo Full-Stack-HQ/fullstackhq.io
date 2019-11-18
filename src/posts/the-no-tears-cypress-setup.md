@@ -8,7 +8,7 @@ author: David Seybold
 tags:
   - front-end
 date: 2019-11-16T00:24:11.722Z
-draft: true
+draft: false
 ---
 Testing the user interface of a web application is one of the most frustrating aspects of developing. Tests are usually flaky, hard to write, and even harder to debug when something isn't working. Most current solutions like Protractor and Nightwatch are based on Selenium. This adds maintaining a Selenium grid or using a third-party grid, to the list of things to keep track of. It is not fun for anyone involved.
  
@@ -134,4 +134,55 @@ describe('When I visit Google', () => {
 });
 ```
 This is a super simple test that goes to the Google Images page and searches for cat pictures, because who doesn't love a good cat picture. To test this, in your terminal run `npm run cypress:open` which is the command we configured earlier. The Cypress test runner should open and you should be able to select our new test and run it. It should pass.
- 
+
+### Separate Environment Configurations
+Most established applications have at least two environments: a place to test new code (QA) and then the customer facing application (prod). Some applications will have more, sometimes up to seven and it is important to be able to run your tests against any and all environments that you need to.
+
+Cypress can do this through the use of custom configuration files that we create and then read in for each test. This is another example of extending the Cypress framework and as such most of the logic we add will be done in the plugins `index.js` file. 
+
+We will start out by creating our configuration files. Unlike most of the folders we have worked with so far, there is not a prescribed standard for where these should go. Since we are extending Cypress, we have the option of putting them wherever we want. For this example, I am going to create a folder inside the plugins directory called `config`. We will be setting up three environments local, qa, and prod. So let's create three files `local.js`, `qa.js`, and `prod.js` and paste this into each of them. 
+```js
+module.exports = {
+  baseUrl: '',
+  env: {}
+};
+```
+This is a basic configuration file that is setup in the Cypress format. The `baseUrl` field here represents the URL of the site that is under test. This value is used by a number of Cypress commands, most notably `.visit()`. With a `baseUrl` set in the config you can navigate to a route on the application simply by doing `cy.visit('/route')` instead of having to enter the full application URL. This allows us to make our tests environment agnostic.
+
+In your application, you can put the address of your environments, I will be continuing with the Google example that we setup earlier and will use `https://google.com` as my `baseUrl` in the prod config file. This will be all we will add here. The `env` parameter can be used to set environment variables for your tests that you want to be available. This is handy for passwords or other test data that could also be passed in from outside the tests.
+
+So now we have our config files and we need to load them into the tests depending on the environment that they are being run in. To do this we will modify the plugins `index.js` to look like this:
+```js
+const preprocess = require('./preprocess');
+
+module.exports = (on, config) => {
+
+  on("file:preprocessor", preprocess);
+
+  const targetEnv = config.env.TARGET_ENV || 'qa';
+
+  const environmentConfig = require(`./config/${targetEnv}`);
+
+  return {
+    ...config,
+    ...environmentConfig,
+  };
+}
+```
+We have only added a few lines to the file, but they are doing a lot. The first new line we see is 
+```js
+const targetEnv = config.env.TARGET_ENV || 'qa';
+```
+Here we are setting a variable `targetEnv` based on the value of an environment variable that we will be passing into the tests called `TARGET_ENV`. We are also defaulting to qa if you forget to pass one in.
+```js
+const environmentConfig = require(`./config/${targetEnv}`);
+```
+This is the next line where we are dynamically reading in one of the config files that we created based on the name. I am not doing any validation on the value of the `targetEnv` variable, which could be a problem if it is passed in wrong. After this line we now have our custom config read in and all we have to do is return it.
+```js
+return {
+    ...config,
+    ...environmentConfig,
+};
+```
+I am using the spread operator to expand both the config that gets passed in and our custom config so that I end up with all of the config variables that were passed into the tests as well as those in our custom config. This means we preserve variables such as `TARGET_ENV` which we pass in from outside the tests.
+
