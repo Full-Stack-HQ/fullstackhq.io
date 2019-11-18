@@ -18,7 +18,7 @@ Cypress is a relatively new player to the E2E testing field, having only been ar
  
 While Cypress is awesome, when I was setting up my implementation I found that there were a lot of different resources on how to set up different parts of the framework. If I wanted to see how to add Typescript I needed to go to one place, then for cucumber somewhere else, and another for anything else I wanted to add. Sometimes the different setups would clash and I ended up spending a lot of time trying to debug problems with my setup that could have been avoided.
  
-My goal with this walkthrough is to show you an easy way to setup Cypress. I am going to show you how to add Typescript, configure multiple configuration files for different environments, and how to add cucumber support. Finally, I will talk about running Cypress inside a CI environment.
+My goal with this walkthrough is to show you an easy way to setup Cypress. I am going to show you how to add Typescript, configure multiple configuration files for different environments, and how to add cucumber support. By the end of the article you should have, or be able to setup, 
  
 ### Install Cypress
 Before we do anything we need to install Cypress. I will be starting on a brand new Angular application but I won't be showing anything specific to Angular in this walkthrough so you can use an Angular, React, or just a plain npm project to follow along.
@@ -251,3 +251,4 @@ Lastly, since we are using webpack to pre-process our files we will add a few li
 ```
 Now let's write some tests!
 
+Inside the integration folder I am going to create a `search.feature` file and a `search` folder. It is important that the name of the feature file and the directory match up exactly as this is how the cucumber pre-processor finds the step definitions. 
