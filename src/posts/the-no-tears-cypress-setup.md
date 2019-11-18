@@ -57,7 +57,7 @@ By default, Cypress expects your tests to be written in Javascript. This is fine
  
 To write our tests in Typescript we need to take advantage of the plugin capability of Cypress. We are going to add a file pre-processor that will transpile any Typescript files we have to Javascript before running the tests. To do this we will need to install a few dependencies. 
 ```sh
-➜ npm install -D ts-loader @cypress/webpack-preprocessor webpack typescript
+➜ npm install -D ts-loader @cypress/webpack-preprocessor @babel/core @babel/preset-env babel-loader webpack typescript
 ```
 You may have already installed some of these or they could exist as part of a transient dependency.
  
@@ -185,6 +185,8 @@ return {
 };
 ```
 I am using the spread operator to expand both the config that gets passed in and our custom config so that I end up with all of the config variables that were passed into the tests as well as those in our custom config. This means we preserve variables such as `TARGET_ENV` which we pass in from outside the tests.
+
+To run the tests and pass in the `TARGET_ENV` variable run our earlier created npm script like this: `npm run cypress:open -- -e TARGET_ENV=prod`.
  
 ### Custom Commands
 Another aspect of Cypress that further enhances the developer experience and the reusability of tests is the ability to add custom commands. This is especially useful for functionalities like log in or interacting with a common element across your application. Luckily, Cypress makes it extremely easy to add custom commands. 
@@ -252,3 +254,63 @@ Lastly, since we are using webpack to pre-process our files we will add a few li
 Now let's write some tests!
  
 Inside the integration folder, I am going to create a `search.feature` file and a `search` folder. The name of the feature file and the directory should match exactly as this is how the cucumber pre-processor finds the step definitions.
+
+Once again, my test examples are going to involve searching Google. Here is my `search.feature` file and the step definition I've created inside the search folder.
+```feature
+# cypress/integration/search.feature
+Feature: Google Search
+
+  Test searching google
+  
+  Scenario: Search for cats
+    Given I open Google home page
+    Then I search for cats
+```
+```ts
+// cypress/integration/search/search.spec.ts
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+
+Given('I open Google home page', () => {
+  cy.visit('/')
+});
+
+Then(/^I search for (.*)$/, (text: string) => {
+  cy.searchGoogle(text);
+});
+```
+If you are familiar with Cucumber then there is nothing here that should be too shocking. When you run `npm run cypress:open -- -e TARGET_ENV=prod` you should see the option to run our `search.feature` file. 
+
+Now, let's say that we want to add another feature file to test searching Google Images. Here is my feature file and step definition:
+```feature
+# cypress/integration/images.feature
+Feature: Google Images
+
+  Test searching google images
+  
+  Scenario: Search for cat pictures
+    Given I open Google images page
+    Then I search for cat pictures
+```
+```ts
+// cypress/integration/images/images.spec.ts
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+
+Given('I open Google images page', () => {
+  cy.visit('/imghp')
+});
+
+Then(/^I search for (.*)$/, (text: string) => {
+  cy.searchGoogle(text);
+});
+```
+The astute among you might notice that between the two step definitions files we have one step definition that is completely duplicated. This is in both since we have turned global step definitions off earlier. While it is nice to not have to worry about clashing step definitions, we also don't want to have completely duplicated code. 
+
+Luckily, the cypress-cucumber-preprocessor allows us to create a `integration/common` folder where we can put step definitions that are common between multiple feature files. We can then completely remove the duplicated step definition and put it in a file inside that folder.
+
+Now, you should have a set up for Cypress that allows you to use Cucumber when writing your tests. The source code for the cucumber set up can be found [here](https://github.com/Full-Stack-HQ/base-cypress-setup/tree/cucumber).
+
+### Resources
+1. [Source code](https://github.com/Full-Stack-HQ/base-cypress-setup)
+2. [Cypress Documentation](https://docs.cypress.io/guides/getting-started/installing-cypress.html)
+3. [Webpack Preprocessor](https://github.com/cypress-io/cypress-webpack-preprocessor)
+4. [Cucumber Preprocessor](https://github.com/TheBrainFamily/cypress-cucumber-preprocessor)
