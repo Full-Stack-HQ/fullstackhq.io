@@ -218,4 +218,36 @@ To make sure that the intellisense works for the IDE we need to use a Typescript
 The code up to this point can be found in [this](https://github.com/Full-Stack-HQ/base-cypress-setup/tree/no-cucumber) git repository on the `no-cucumber` branch.
 
 ### Cucumber Setup
-As we have seen so far Cypress gives us the ability to write end-to-end tests similarly to how we would write unit tests. This is one way of writing your tests, however a lot of you might be coming from using Cucumber in your end-to-end tests. This is not something that Cypress provides support for out of the box however, similar to how we setup Typescript we can use a pre-processor to allow the use of Cucumber.
+As we have seen so far Cypress gives us the ability to write end-to-end tests similarly to how we would write unit tests. This is one way of writing your tests, however a lot of you might be coming from using Cucumber in your end-to-end tests. This is not something that Cypress provides support for out of the box however, similar to how we setup Typescript we can use a pre-processor to enable the use of Cucumber. If you have been following along so far, go ahead and delete the google folder that we had created earlier, as we will be setting up the tests a little differently for cucumber. 
+
+First things first, let's install the pre-processor that we will use.
+```sh
+➜ npm install -D cypress-cucumber-preprocessor
+```
+Now, there are three configuration items we need to do before we can start writing our feature files and step definitions. First, change the `cypress.json` file to look like this:
+```json
+{
+  "testFiles": "**/*.feature"
+}
+```
+This tells Cypress where to find our test files. Next, we need to configure the pre-processor to use non-global step definitions. This is one thing about the Cypress cucumber implementation that is excellent. Being able to have step definitions that are not global makes writing our feature files and tests much easier as we do not have to worry about collisions. To enable this, add the following to your `package.json`:
+```json
+"cypress-cucumber-preprocessor": {
+  "nonGlobalStepDefinitions": true
+}
+```
+The cypress-cucumber-preprocessor uses cosmiconfig which pulls information from the `package.json` which is why we put it there.
+
+Lastly, since we are using webpack to pre-process our files we will add a few lines to our webpack config and we will be ready to go. Add this object to the rules array. 
+```js
+{
+  test: /\.feature$/,
+  use: [
+    {
+      loader: "cypress-cucumber-preprocessor/loader"
+    }
+  ]
+}
+```
+Now let's write some tests!
+
