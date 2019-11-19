@@ -10,26 +10,26 @@ tags:
 date: 2019-11-16T00:24:11.722Z
 draft: false
 ---
- Testing the user interface of a web application is one of the most frustrating aspects of developing. Tests are usually flaky, hard to write, and even harder to debug when something isn't working. Most current solutions like Protractor and Nightwatch are based on Selenium. This adds maintaining a Selenium grid or using a third-party grid, to the list of things to keep track of. It is not fun for anyone involved.
+ Testing the user interface of a web application is one of the most frustrating aspects of web development. Tests are usually flaky, hard to write, and even harder to debug when something isn't working. Most current solutions like Protractor and Nightwatch are based on Selenium. This adds maintaining a Selenium grid or using a third-party grid, to the list of things to keep track of and maintain. It is not fun for anyone involved.
  
 Enter Cypress. 
  
-Cypress is a relatively new player to the E2E testing field, having only been around since 2015, but it is already taking the front-end community by storm. It makes writing E2E tests feel more like you are writing application code, resulting in better tests and better development experience. I won't spend any more time explaining how great Cypress is as I will assume that if you are here trying to set it up, that you have at least already been convinced or are ready to try it out for yourself.
+Cypress is a relatively new player to the E2E testing field, having only been around since 2015, but it is already taking the front-end community by storm. It makes writing E2E tests feel more like you are writing application code, resulting in better tests and a better development experience. I won't spend any more time explaining how great Cypress is as I will assume that if you are here trying to set it up, that you have at least already been convinced or are ready to try it out for yourself.
  
-While Cypress is awesome, when I was setting up my implementation I found that there were a lot of different resources on how to set up different parts of the framework. If I wanted to see how to add Typescript I needed to go to one place, then for cucumber somewhere else, and another for anything else I wanted to add. Sometimes the different setups would clash and I ended up spending a lot of time trying to debug problems with my setup that could have been avoided.
+While Cypress is awesome, when I was setting up my implementation I found that there were a lot of different resources on how to set up parts of the framework. If I wanted to see how to add Typescript I needed to go to one place, then for cucumber somewhere else, and another for anything else I wanted to add. Sometimes the different setups would clash and I ended up spending a lot of time trying to debug problems with my setup that could have been avoided.
  
-My goal with this walkthrough is to show you an easy way to setup Cypress. I am going to show you how to add Typescript, configure multiple configuration files for different environments, and how to add cucumber support. By the end of the article, you should have, or be able to set up, 
+My goal with this walk-through is to show you an easy way to set up Cypress. I am going to show you how to add Typescript, configure multiple configuration files for different environments, and how to add cucumber support. By the end of the article, you should be well on your way to writing your tests having already gotten the hassle of setup out of the way.
  
 ### Install Cypress
-Before we do anything we need to install Cypress. I will be starting on a brand new Angular application but I won't be showing anything specific to Angular in this walkthrough so you can use an Angular, React, or just a plain npm project to follow along.
+Before we do anything we need to install Cypress. I will be starting on a brand new Angular application but I won't be showing anything specific to Angular in this walk-through so you can use an Angular, React, or just a plain npm project to follow along.
 ```sh
 ➜ npm install -D cypress
 ```
-This may take a few minutes as it will install the Javascript package and the Cypress binary needed to execute tests. The install does not create the folder structure we need for Cypress, this instead happens the first time that you start Cypress. So let's go ahead and add an npm script that we will use throughout this post to start Cypress and go ahead and run it when you are done.
+This may take a few minutes as it will install the Javascript package and the Cypress binary needed to execute tests. The install does not create the folder structure we need for Cypress, this instead happens the first time that you start Cypress. So let's go ahead and add an npm script that we will use throughout this post to start Cypress. Go ahead and run it when you are done.
 ```json
 "cypress:open": "$(npm bin)/cypress open"
 ```
-When this command is run it will open the Cypress UI. Since this is the first time we are running it, it will generate the folder structure and some sample tests that we can use to test how Cypress works. Once the UI opens feel free to spend some time familiarizing yourself with the test runner. When you are done, kill the test runner and let's look at what was generated.
+When this command is run it will open the Cypress test runner. Since this is the first time we are running it, it will generate the folder structure and some sample tests that we can use to test how Cypress works. Once the UI opens feel free to spend some time familiarizing yourself with the test runner. When you are done, kill the test runner and let's look at what was generated.
  
 ### File structure
 After initialization, there will be a `cypress` folder that gets initialized inside the root directory of your application. Inside that folder, four more will also have been created. 
@@ -47,19 +47,19 @@ The fixtures folder is where you can store static data used throughout your test
 This folder is where all of your tests will live. The sample tests that you experimented with earlier will all have been generated here.
  
 ###### plugins
-Cypress is an E2E testing framework, but also has a node process that can be used to extend some of the functionality of Cypress. This would include configuring file pre-processors or loading configurations, both of which I will cover later on.
+Cypress has a node process that can be used to extend some of its functionality. This includes configuring file pre-processors or loading configurations, both of which I will cover later on.
  
 ###### support
 Out of the box, Cypress provides the `support/index.js` file that will be run before every spec file. It can be used for several things such as a global beforeEach hook, overrides, and setting up custom commands which I will demonstrate as part of this post.
  
 ### Write Your Tests in Typescript
-By default, Cypress expects your tests to be written in Javascript. This is fine however, I am a big advocate for writing as much of your codebase as in Typescript as possible. Just like the code of your main application, your tests should be easy to maintain and easy for someone who has never seen your codebase to be able to easily understand what is happening. Typescript allows for your code to be more self-documenting than just plain Javascript.
+By default, Cypress expects your tests to be written in Javascript. This is fine however, I am a big advocate for writing as much of your codebase in Typescript as possible. Just like the code of your main application, your tests should be easy to maintain and easy for someone who has never seen your codebase to be able to understand what is happening.
  
 To write our tests in Typescript we need to take advantage of the plugin capability of Cypress. We are going to add a file pre-processor that will transpile any Typescript files we have to Javascript before running the tests. To do this we will need to install a few dependencies. 
 ```sh
 ➜ npm install -D ts-loader @cypress/webpack-preprocessor @babel/core @babel/preset-env babel-loader webpack typescript
 ```
-You may have already installed some of these or they could exist as part of a transient dependency.
+You may have already installed some of these or they could exist as part of a transient dependency inside your project.
  
 Next, we will create a webpack config file inside our cypress folder with the following contents:
 ```js
@@ -84,7 +84,9 @@ module.exports = {
   }
 };
 ```
-We also need to add a basic `tsconfig.json` file to our cypress directory. This is a basic one that you can use. They most important part is the `cypress` inside the types array as this is how your IDE will be able to use intellisense.
+Here we will be telling webpack to use the `ts-loader` package to transpile all of the `.ts` files. There are other possible loaders that you could use here, if you prefer, however this setup will work as is.
+
+We also need to add a `tsconfig.json` file to our cypress directory. This is a basic one that you can use. They most important part is the `cypress` inside the types array as this is how your IDE will be able to use intellisense. If you would like to maintain consistency with the rest of your Typescript application, you can extend your base `tsconfig.json` and simply add the Cypress types to here.
 ```json
 {
   "compilerOptions": {
@@ -99,7 +101,7 @@ We also need to add a basic `tsconfig.json` file to our cypress directory. This 
   ]
 }
 ```
-Now, we need to tell Cypress to pre-process our test files with webpack and our webpack config. As you may have guessed from the earlier explanations of the file structure, this occurs inside the plugins directory in the `index.js` file. I am going to create a new file inside the plugins directory called `preprocess.js` inside which I will do all of the pre-processing logic that we need to do. It helps to simplify the `index.js` file.
+Now, we need to tell Cypress to pre-process our test files with webpack and our webpack config. As you may have guessed from the earlier explanations of the file structure, this occurs inside the plugins directory in the `index.js` file. I am going to create a new file inside the plugins directory called `preprocess.js` inside which I will do all of the pre-processing logic that we need to do. It is not necessary to create a separate file, but it helps to simplify the `index.js` file.
  
 Here is the contents of that file:
 ```js
@@ -119,7 +121,7 @@ module.exports = (on, config) => {
  on("file:preprocessor", preprocess);
 }
 ```
-That's it. Now we should be able to write our tests in Typescript. Let's not take my word for it though. We should add a sample test to verify everything is working correctly. Go ahead and remove all of the sample tests that were created by the initialization process. Create a folder called `google` and a file inside that called `search.spec.ts` with these contents.
+That's it. Now we should be able to write our tests in Typescript. Let's not take my word for it though. We should add a sample test to verify everything is working correctly. Go ahead and remove all of the tests that were created by the initialization process. Create a folder called `google` and a file inside that called `search.spec.ts` with these contents.
 ```ts
 // cypress/google/search.spec.ts
 describe('When I visit Google', () => {
@@ -133,7 +135,7 @@ describe('When I visit Google', () => {
   })
 });
 ```
-This is a super simple test that goes to the Google Images page and searches for cat pictures, because who doesn't love a good cat picture. To test this, in your terminal run `npm run cypress:open` which is the command we configured earlier. The Cypress test runner should open and you should be able to select our new test and run it. It should pass.
+This is a super simple test that goes to the Google Images page and searches for cat pictures, because who doesn't love a good cat picture. To test this, in your terminal run `npm run cypress:open` which is the command we configured earlier. The Cypress test runner should open and you should be able to select our new test and run it. It _should_ pass. If for some reason it doesn't, go back and double check that you have added everything correctly. I know from personal experience that it is easy to make a small typo that throws off everything.
  
 ### Separate Environment Configurations
 Most established applications have at least two environments: a place to test new code (QA) and then the customer-facing application (prod). Some applications will have more, sometimes up to seven and it is important to be able to run your tests against all environments that you need to.
@@ -142,6 +144,7 @@ Cypress can do this through the use of custom configuration files that we create
  
 We will start by creating our configuration files. Unlike most of the folders we have worked with so far, there is not a prescribed standard for where these should go. Since we are extending Cypress, we have the option of putting them wherever we want. For this example, I am going to create a folder inside the plugins directory called `config`. We will be setting up three environments local, qa, and prod. So let's create three files `local.js`, `qa.js`, and `prod.js` and paste this into each of them. 
 ```js
+// cypress/plugins/config/{prod|qa|local}.js
 module.exports = {
  baseUrl: '',
  env: {}
@@ -149,9 +152,9 @@ module.exports = {
 ```
 This is a basic configuration file that is set up in the Cypress format. The `baseUrl` field here represents the URL of the site that is under test. This value is used by several Cypress commands, most notably `.visit()`. With a `baseUrl` set in the config, you can navigate to a route on the application simply by doing `cy.visit('/route')` instead of having to enter the full application URL. This allows us to make our tests environment agnostic.
  
-In your application, you can put the address of your environments, I will be continuing with the Google example that we set up earlier and will use `https://google.com` as my `baseUrl` in the prod config file. This will be all we will add here. The `env` parameter can be used to set environment variables for your tests that you want to be available. This is handy for passwords or other test data that could also be passed in from outside the tests.
+I will be continuing with the Google example that we set up earlier and will use `https://google.com` as my `baseUrl` in the prod config file. In your application, you can put the URL for your own application environments. The `env` parameter can be used to set environment variables for your tests that you want to be available. This is handy for passwords or other test data that could also be passed in from outside the tests. For the purposes of this setup, I won't add any.
  
-So now we have our config files and we need to load them into the tests depending on the environment that they are being run in. To do this we will modify the plugins `index.js` to look like this:
+So now we have our config files, but we need to load them into the tests depending on the environment that they are being run in. To do this we will modify the plugins `index.js` to look like this:
 ```js
 const preprocess = require('./preprocess');
  
