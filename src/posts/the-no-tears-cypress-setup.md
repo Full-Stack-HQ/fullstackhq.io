@@ -309,7 +309,7 @@ Luckily, the cypress-cucumber-preprocessor allows us to create a `integration/co
 
 Time to celebrate! We're done!
 
-I know this was a long article with a lot of content that was thrown at you, but at this point you should have a set up for Cypress that allows you to use Cucumber, Typescript, custom commands, and varying configuration files when writing your tests.
+I know this was a long article with a lot of content that was thrown at you, but at this point you should have a setup for Cypress that allows you to use Cucumber, Typescript, custom commands, and varying configuration files when writing your tests.
 
 ### Resources
 1. [Cypress w/o Cucumber Source Code](https://github.com/Full-Stack-HQ/base-cypress-setup/tree/no-cucumber)
