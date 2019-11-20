@@ -7,7 +7,7 @@ imageCreditLink: 'https://unsplash.com/photos/1K9T5YiZ2WU'
 author: David Seybold
 tags:
   - front-end
-date: 2019-11-21T00:24:11.722Z
+date: 2019-11-20T12:00:11.722Z
 draft: false
 ---
  Testing the user interface of a web application is one of the most frustrating aspects of web development. Tests are usually flaky, hard to write, and even harder to debug when something isn't working. Most current solutions like Protractor and Nightwatch are based on Selenium. This adds maintaining a Selenium grid or using a third-party grid, to the list of things to keep track of and maintain. It is not fun for anyone involved.
