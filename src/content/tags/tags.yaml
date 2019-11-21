@@ -1,7 +1,3 @@
-- id: speeches
-  label: Speeches
-  description: Some of the greatest words ever spoken.
-  image: ./cover-images/blog-cover.jpg
 - id: front-end
   label: Front-End
   description: Tutorials and thoughts on Front-End development.
