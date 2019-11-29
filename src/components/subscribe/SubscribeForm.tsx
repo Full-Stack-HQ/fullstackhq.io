@@ -10,7 +10,7 @@ import useSubscribeForm from './useSubscribeForm';
 import { FormInputState, FormInputs } from '../../models/forms';
 import { pageBreaks } from '../../styles/page-breaks';
 import { logEvent } from '../../core/log-event';
-import { EventCategory, EventAction } from '../../core/events';
+import { EventCategory, SubscribeEventAction } from '../../core/events';
 
 const SubscribeFormStyles = css`
   @media (max-width: ${pageBreaks.tinyPlus}) {
@@ -111,11 +111,11 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({}: SubscribeFormProps) => 
   const subscribe = () => {
     addToMailchimp(inputs.email.value)
       .then((response: MailChimpResponse) => {
-        logEvent(EventCategory.SUBSCRIBE, EventAction.SUBSCRIBE_SUCCESS);
+        logEvent(EventCategory.SUBSCRIBE, SubscribeEventAction.SUCCESS);
         setSubscribeResult(response.result);
       })
       .catch(() => {
-        logEvent(EventCategory.SUBSCRIBE, EventAction.SUBSCRIBE_FAIL);
+        logEvent(EventCategory.SUBSCRIBE, SubscribeEventAction.FAILURE);
         setSubscribeResult(MAILCHIMP_ERROR);
       });
     
