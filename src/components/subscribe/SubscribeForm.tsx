@@ -9,6 +9,8 @@ import config from '../../website-config';
 import useSubscribeForm from './useSubscribeForm';
 import { FormInputState, FormInputs } from '../../models/forms';
 import { pageBreaks } from '../../styles/page-breaks';
+import { logEvent } from '../../core/log-event';
+import { EventCategory, EventAction } from '../../core/events';
 
 const SubscribeFormStyles = css`
   @media (max-width: ${pageBreaks.tinyPlus}) {
@@ -109,9 +111,11 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({}: SubscribeFormProps) => 
   const subscribe = () => {
     addToMailchimp(inputs.email.value)
       .then((response: MailChimpResponse) => {
+        logEvent(EventCategory.SUBSCRIBE, EventAction.SUBSCRIBE_SUCCESS);
         setSubscribeResult(response.result);
       })
-      .catch(error => {
+      .catch(() => {
+        logEvent(EventCategory.SUBSCRIBE, EventAction.SUBSCRIBE_FAIL);
         setSubscribeResult(MAILCHIMP_ERROR);
       });
     
