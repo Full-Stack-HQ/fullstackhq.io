@@ -10,3 +10,7 @@
   label: DevOps
   description: Tutorials and thoughts on DevOps practices.
   image: ./cover-images/blog-cover.jpg
+- id: other
+  label: Other
+  description: Tutorials and thoughts that don't fit cleanly into other categories.
+  image: ./cover-images/blog-cover.jpg
